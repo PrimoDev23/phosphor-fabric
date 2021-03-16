@@ -14,20 +14,13 @@ public class DirectionHelper {
      * @throws IllegalArgumentException If the vector doesn't represent a valid direction
      */
     public static Direction getVecDirection(int x, int y, int z) {
-        if (x == 0 && y < 0 && z == 0) {
-            return Direction.DOWN;
-        } else if (x == 0 && y > 0 && z == 0) {
-            return Direction.UP;
-        } else if (x == 0 && y == 0 && z < 0) {
-            return Direction.NORTH;
-        } else if (x == 0 && y == 0 && z > 0) {
-            return Direction.SOUTH;
-        } else if (x < 0 && y == 0 && z == 0) {
-            return Direction.WEST;
-        } else if (x > 0 && y == 0 && z == 0) {
-            return Direction.EAST;
-        } else {
-            return null;
+        if (x != 0 ^ y != 0 ^ z != 0) {
+            return Direction.byId(getEnumValue(y, 1) + getEnumValue(z, 3) + getEnumValue(x, 5));
         }
+        return null;
+    }
+
+    private static int getEnumValue(int value, int addition){
+        return -(-((value + (value >> 31)) ^ (value >> 31)) >> 31) * ((value >> 9) + addition);
     }
 }
